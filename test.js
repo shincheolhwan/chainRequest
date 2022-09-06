@@ -2,14 +2,14 @@ const {WEB3_CLIENT: web3} = require('./utils/constants')
 
 async function getRevertReason(txHash) {
     const tx = await web3.eth.getTransaction(txHash)
-    
+
     try {
         var result = await web3.eth.call(tx, tx.blockNumber)
     } catch (e) {
         console.log(e);
         return false;
     }
-    
+
     console.log(2);
     result = result.startsWith('0x') ? result : `0x${result}`
     if (result && result.substr(138)) {
@@ -23,4 +23,4 @@ async function getRevertReason(txHash) {
     }
 }
 
-getRevertReason('0x725b1b7692701ad7113b732fbbdb84bf5374bd569f37d94bd7984d521d35721a');
+getRevertReason('0x92c9388f0d9fe078ba733cabee753de96bc9367a96f416c2d9d34a68e76ff756');

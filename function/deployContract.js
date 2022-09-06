@@ -10,9 +10,10 @@ async function deployContract(name, arguments = []) {
         data: '0x' + byteCode[name].object,
         arguments: arguments,
     };
-    
-    
+
+
     const web3Data = contract.deploy(options).encodeABI();
+
     const transaction = await constants.WEB3_CLIENT.eth.accounts.signTransaction({
         nonce: await utils.getNonce(constants.MICRO_CHAIN_ID, constants.USER.ADDRESS),
         chainId: constants.MICRO_CHAIN_ID,
