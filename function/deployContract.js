@@ -14,6 +14,7 @@ async function deployContract(name, arguments = []) {
 
     const web3Data = contract.deploy(options).encodeABI();
 
+    
     const transaction = await constants.WEB3_CLIENT.eth.accounts.signTransaction({
         nonce: await utils.getNonce(constants.MICRO_CHAIN_ID, constants.USER.ADDRESS),
         chainId: constants.MICRO_CHAIN_ID,
@@ -24,8 +25,10 @@ async function deployContract(name, arguments = []) {
         gasPrice: constants.GAS_PRICE
     }, constants.USER.PRIVATE_KEY)
 
-    const data = await utils.sendTransactionForContractUpload(constants.MICRO_CHAIN_ID, transaction.rawTransaction);
-    console.log(data)
+    console.log(transaction.rawTransaction)
+    
+    // const data = await utils.sendTransactionForContractUpload(constants.MICRO_CHAIN_ID, transaction.rawTransaction);
+    // console.log(data)
 }
 
 module.exports = deployContract;

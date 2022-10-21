@@ -26,7 +26,7 @@ const sendRawTransaction = async (microChainId, rawTransaction) => {
     const query = {
         microChainId: microChainId,
     };
-    const body= {
+    const body = {
         pollingId: "cheolhwan",
         isReceiptTxResult: true,
         rawTransaction: rawTransaction
@@ -39,10 +39,19 @@ const sendTransactionForContractUpload = async (microChainId, rawTransaction) =>
     const query = {
         microChainId: microChainId,
     };
-    const body= {
+    const body = {
         rawTransaction: rawTransaction
     }
     const response = await axios.post(`http://43.200.220.233:14991/v1/request/transaction/contract?${makeQuery(query)}`, body);
+    return response.data;
+}
+
+const estimateGas = async (microChainId, body) => {
+    const query = {
+        microChainId: microChainId,
+    };
+    const response = await axios.post(constants.API_GATEWAY + `/request/estimate-gas?${makeQuery(query)}`, body);
+    console.log(response.data);
     return response.data;
 }
 
@@ -69,6 +78,7 @@ module.exports = {
     getNonce,
     sendRawTransaction,
     sendTransactionForContractUpload,
+    estimateGas,
     hexToDecimal,
     decimalToHex,
 }
