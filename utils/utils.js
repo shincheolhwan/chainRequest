@@ -22,13 +22,19 @@ const getNonce = async (microChainId, address) => {
     return response.data.nonce;
 }
 
+const getGasPrice = async (microChainId) => {
+    const params = {
+        microChainId: microChainId
+    };
+    const response = await axios.get(constants.API_GATEWAY + `/micro-chains/${params.microChainId}/gas-price`);
+    return decimalToHex(response.data.gas_price);
+}
+
 const sendRawTransaction = async (microChainId, rawTransaction) => {
     const query = {
         microChainId: microChainId,
     };
     const body = {
-        pollingId: "cheolhwan",
-        isReceiptTxResult: true,
         rawTransaction: rawTransaction
     }
     const response = await axios.post(constants.API_GATEWAY + `/request/transaction?${makeQuery(query)}`, body);
@@ -46,13 +52,21 @@ const sendTransactionForContractUpload = async (microChainId, rawTransaction) =>
     return response.data;
 }
 
-const estimateGas = async (microChainId, body) => {
+const estimateGas = async (microChainId, from, to, gasPrice, value, data) => {
     const query = {
         microChainId: microChainId,
     };
+    
+    const body = {
+        ...(from && {from: from}),
+        ...(to && {to: to}),
+        ...(gasPrice && {gasPrice: gasPrice}),
+        ...(value && {value: value}),
+        ...(data && {data: data})
+    }
+    
     const response = await axios.post(constants.API_GATEWAY + `/request/estimate-gas?${makeQuery(query)}`, body);
-    console.log(response.data);
-    return response.data;
+    return decimalToHex(response.data.gas);
 }
 
 function hexToDecimal(number, returnType = 'number') {
@@ -76,9 +90,10 @@ function decimalToHex(number) {
 module.exports = {
     getAbiCode,
     getNonce,
+    estimateGas,
+    getGasPrice,
     sendRawTransaction,
     sendTransactionForContractUpload,
-    estimateGas,
     hexToDecimal,
     decimalToHex,
 }

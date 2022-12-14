@@ -5116,6 +5116,8 @@ function createAccount() {
     console.log(Web3Client.eth.accounts.create())
 }
 
+
+
 function call() {
     const contract = new Web3Client.eth.Contract(abiCode);
     console.log(contract.methods.balanceOf(user.address).encodeABI());
@@ -5194,6 +5196,7 @@ function parseRawTransaction(rawTransaction, abiCode, functionName) {
 //     '0x000000000000000000000000563ec710e75cc7c4ff37c551c3d717e93f11f473'
 // ]))
 //0x2a4ad7d3274ea9519929e13630a824939259c07005f302f210332d8c90757038
+
 module.exports = {
     getBlockNumber,
     batch,
