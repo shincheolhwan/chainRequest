@@ -5117,6 +5117,8 @@ function createAccount() {
 }
 
 
+createAccount();
+
 
 function call() {
     const contract = new Web3Client.eth.Contract(abiCode);
